@@ -14,6 +14,15 @@ class Player:
         return Player(nick)
 
     @classmethod
+    def get_player(cls, nick):
+        for player in cls.players:
+            if player.get_nick() == nick:
+                return player
+
+    @classmethod
     def select_player_from_list(cls, index):
         return cls.players[index]
+
+    def add_result(self, result):
+        self.results.append(result)
 

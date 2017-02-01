@@ -1,6 +1,7 @@
 from hangman import Hangman, HangmanResult
 from player import Player
 from ui import UI
+from importexport import CsvImport
 
 
 
@@ -43,9 +44,12 @@ class Game:
             self.hangman.next_try()
 
         if self.hangman.get_dashes() == self.hangman.get_word_to_guess():
-            self.hangman.hangman_end_success()
+            UI.print_win_information(self.hangman.get_word_to_guess())
+            result = self.hangman.hangman_end_success()
         if self.hangman.get_lives() == 0:
-            self.hangman.hangman_end_fail()
+            UI.print_fail_information(self.hangman.get_word_to_guess())
+            result = self.hangman.hangman_end_fail()
+        self.player.add_result(result)
 
     def game_screen(self):
         UI.screen_clear()
@@ -70,6 +74,7 @@ class Game:
 
 
 def main():
+    CsvImport.all_imports()
     while Game.get_is_continue():
         game = Game.start_game()
         game.game_body()

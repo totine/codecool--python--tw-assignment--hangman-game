@@ -120,3 +120,13 @@ class UI:
         print("Next game?")
         to_continue_answers = ['Yes', 'No']
         UI.print_universal_number_list(to_continue_answers)
+
+    @staticmethod
+    def print_win_information(correct_word):
+        print("You won!")
+        print("{} was word to guess".format(correct_word))
+
+    @staticmethod
+    def print_fail_information(correct_word):
+        print("You failed!")
+        print("{} was word to guess".format(correct_word))

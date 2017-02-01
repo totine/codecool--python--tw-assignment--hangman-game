@@ -4,13 +4,7 @@ import re
 
 
 class Hangman:
-    word_list = ['AMSTERDAM', 'ANDORRA LA VELLA', 'ATHENS', 'BELGRADE',
-                 'BERLIN', 'BERN', 'BRATISLAVA', 'BRUSSELS', 'BUCHAREST', 'BUDAPEST',
-                 'CHISINAU', 'COPENHAGEN', 'DUBLIN', 'HELSINKI', 'KIEV', 'LISBON', 'LJUBLJANA',
-                 'LONDON', 'LUXEMBOURG', 'MADRID', 'MINSK', 'MONACO', 'MOSCOW', 'NICOSIA',
-                 'NUUK', 'OSLO', 'PARIS', 'PODGORICA', 'PRAGUE', 'REYKJAVIK', 'RIGA', 'ROME',
-                 'SAN MARINO', 'SARAJEVO', 'SKOPJE', 'SOFIA', 'STOCKHOLM', 'TALLINN', 'TIRANA',
-                 'VADUZ', 'VALLETTA', 'VATICAN CITY', 'VIENNA', 'VILNIUS', 'WARSAW', 'ZAGREB']
+    word_list = []
 
     def __init__(self, lives=5):
         self.word_to_guess = random.choice(self.word_list)
@@ -23,6 +17,10 @@ class Hangman:
     def dashes(self):
         letters_to_replace_with_dashes_pattern = self.pattern_from_used_letter()
         return re.sub(letters_to_replace_with_dashes_pattern, '_', self.word_to_guess)
+
+    @classmethod
+    def add_word(cls, word):
+        cls.word_list.append(word)
 
     def pattern_from_used_letter(self):
         return re.compile('[^ {}]'.format(''.join(self.used_letters)))
@@ -94,4 +92,9 @@ class HangmanResult:
         self.word_to_guess = word_to_guess
         self.saved_lives = lives
         self.attempts = attempts
+
+    @classmethod
+    def add_result(cls, word_to_guess, lives, attempts, player):
+        result = HangmanResult(word_to_guess, lives, attempts)
+        player.add_result(result)
 
