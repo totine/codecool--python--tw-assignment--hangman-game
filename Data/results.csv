@@ -1,1 +1,4 @@
-player_nick, word_to_quess, lives, attempts
+player_nick,word_to_guess,lives,attempts
+asdf,ROME,4,4
+asdf,VALLETTA,0,8
+Asia,VATICAN CITY,0,9

@@ -22,9 +22,6 @@ class Hangman:
     def add_word(cls, word):
         cls.word_list.append(word)
 
-    def pattern_from_used_letter(self):
-        return re.compile('[^ {}]'.format(''.join(self.used_letters)))
-
     def get_dashes(self):
         return self.dashes
 
@@ -37,8 +34,20 @@ class Hangman:
     def get_word_to_guess(self):
         return self.word_to_guess
 
-    def get_attempts_count(self):
+    def get_attempts_counts(self):
         return self.attempts_counts
+
+    def pattern_from_used_letter(self):
+        return re.compile('[^ {}]'.format(''.join(self.used_letters)))
+
+    def next_try(self):
+        UI.print_try_kinds()
+        try_kind = UI.input_try_kind()
+        if try_kind == 'letter':
+            self.next_letter_try()
+        if try_kind == 'word':
+            self.all_word_try()
+        self.attempts_counts += 1
 
     def next_letter_try(self):
         letter = UI.input_letter()
@@ -62,15 +71,6 @@ class Hangman:
         else:
             self.wrong_word_try(word)
 
-    def next_try(self):
-        UI.print_try_kinds()
-        try_kind = UI.input_try_kind()
-        if try_kind == 'letter':
-            self.next_letter_try()
-        if try_kind == 'word':
-            self.all_word_try()
-        self.attempts_counts += 1
-
     def correct_word_try(self, word):
         self.used_letters.extend(list(word))
 
@@ -78,23 +78,34 @@ class Hangman:
         self.lives -= 1
 
 
-
-
-    def hangman_end_success(self):
-        return HangmanResult(self.word_to_guess, self.lives, self.attempts_counts)
-
-    def hangman_end_fail(self):
-        return HangmanResult(self.word_to_guess, self.lives, self.attempts_counts)
-
-
 class HangmanResult:
-    def __init__(self, word_to_guess, lives, attempts):
+    results = []
+
+    def __init__(self, word_to_guess, lives, attempts, player):
         self.word_to_guess = word_to_guess
         self.saved_lives = lives
         self.attempts = attempts
+        self.player = player
+        HangmanResult.results.append(self)
 
     @classmethod
     def add_result(cls, word_to_guess, lives, attempts, player):
-        result = HangmanResult(word_to_guess, lives, attempts)
+        result = HangmanResult(word_to_guess, lives, attempts, player)
         player.add_result(result)
+
+    @classmethod
+    def get_results(cls):
+        return cls.results
+
+    def get_word_to_guess(self):
+        return self.word_to_guess
+
+    def get_saved_lives(self):
+        return self.saved_lives
+
+    def get_attempts(self):
+        return self.attempts
+
+    def get_player(self):
+        return self.player
 

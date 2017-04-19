@@ -9,19 +9,21 @@ class UI:
         while not UI.is_valid_nickname(nick):
             nick = input("Enter your nickname (min. 3 chars): ")
         return nick
-
+    @classmethod
+    def print_nick_is_taken(cls):
+        print('Nick is already taken. Choose another one.')
     @staticmethod
     def is_valid_nickname(nick):
         return bool(re.match("\w{3,}$", nick))
 
     @classmethod
-    def select_player_from_list(cls):
-        cls.print_player_table()
-        return cls.input_select_player_kind()
+    def select_player_from_list(cls, player_list):
+        cls.print_player_table(player_list)
+        return cls.universal_number_input(len(player_list))
 
     @classmethod
-    def print_player_table(cls):
-        pass
+    def print_player_table(cls, player_list):
+        cls.print_universal_number_list(player_list)
 
     @staticmethod
     def print_select_player_kinds():
@@ -130,3 +132,46 @@ class UI:
     def print_fail_information(correct_word):
         print("You failed!")
         print("{} was word to guess".format(correct_word))
+
+    @classmethod
+    def start_screen(cls):
+        cls.screen_clear()
+        cls.print_game_title()
+        cls.print_game_options()
+
+
+    @classmethod
+    def print_game_title(cls):
+        print("HANGMAN")
+
+    @classmethod
+    def print_game_options(cls):
+        # game_options = Game.get_game_options()
+        game_options = ['Start game', 'Help', 'Score table', 'Credits', 'Exit']
+        cls.print_universal_number_list(game_options)
+
+    @classmethod
+    def input_game_options(cls):
+        # game_options = Game.get_game_options()
+        game_options = ['Start game', 'Help', 'Score table', 'Credits', 'Exit']
+        return cls.universal_number_input(len(game_options))
+
+    @classmethod
+    def print_help(cls):
+        cls.screen_clear()
+        print("Help here!")
+        cls.press_enter_to_continue()
+
+    @classmethod
+    def print_credits(cls):
+        cls.screen_clear()
+        print("Credits_here!")
+        cls.press_enter_to_continue()
+
+    @classmethod
+    def press_enter_to_continue(cls):
+        input("Press enter to continue")
+
+    @classmethod
+    def print_goodbye(cls):
+        print("See you next time!")

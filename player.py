@@ -23,6 +23,17 @@ class Player:
     def select_player_from_list(cls, index):
         return cls.players[index]
 
+    @classmethod
+    def get_players_list(cls):
+        return cls.players
+
+    @classmethod
+    def get_players_nicks_list(cls):
+        return [player.nick for player in cls.players]
+
+    def get_nick(self):
+        return self.nick
+
     def add_result(self, result):
         self.results.append(result)
 
